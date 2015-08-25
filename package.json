@@ -1,10 +1,14 @@
 {
   "name": "redux-easy-actions",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Sugar library for easy creating Flux or Redux actions.",
-  "main": "src/core.js",
+  "main": "lib/core.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf lib coverage",
+    "build:lib": "babel src --out-dir lib",
+    "version": "npm run clean && npm run build:lib",
+    "postversion": "git add . && git push origin HEAD && git push --tags",
+    "test": "mocha --compilers js:babel/register"
   },
   "repository": {
     "type": "git",
@@ -24,5 +28,9 @@
   "homepage": "https://github.com/grigory-leonenko/redux-easy-actions",
   "dependencies": {
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.22",
+    "rimraf": "^2.4.2"
   }
 }
