@@ -1,0 +1,25 @@
+{
+  "name": "redux-easy-actions",
+  "version": "0.1.0",
+  "description": "Sugar library for easy creating Flux or Redux actions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/grigory-leonenko/redux-easy-actions.git"
+  },
+  "keywords": [
+    "redux",
+    "actions",
+    "react",
+    "flux"
+  ],
+  "author": "Grigory Leonenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grigory-leonenko/redux-easy-actions/issues"
+  },
+  "homepage": "https://github.com/grigory-leonenko/redux-easy-actions"
+}
