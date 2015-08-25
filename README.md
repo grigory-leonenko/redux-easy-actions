@@ -95,6 +95,29 @@ export default new Actions();
 
 ```
 
+Or decorate methods you need:
+
+```js
+class Actions {
+    @EasyActions
+    ADD_TODO(type, text){
+        return {
+            type: type,
+            text }
+    }
+    @EasyActions
+    DELETE_TODO(type, id){
+            return {
+                type: type,
+                id }
+    }
+    DELETE_ASYNC(id, dispatch){
+        rest.del(`api/todos/${id}`)
+            .then(() => dispatch(this.DELETE_TODO(id)))
+    }
+}
+```
+
 That's all actions are created. Next connect it to reducer:
 
 ```js
