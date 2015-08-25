@@ -2,6 +2,12 @@
 
 Decorator for easy creating actions and use with Redux or Flux.
 
+### Install
+
+```
+npm install redux-easy-actions
+```
+
 ### Problem or what for it...
 
 [Redux](http://rackt.github.io/redux) is a great library for build JavaScript apps. But there is one problem, string constants as "Action Type".
