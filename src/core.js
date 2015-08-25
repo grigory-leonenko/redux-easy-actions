@@ -1,4 +1,3 @@
-import assign from 'lodash/object/assign';
 
 /**
  * Decorator for Redux actions. It eliminates the need for string constants and switches in reducers.
@@ -66,3 +65,4 @@ function action(name, fn){
     }
     return assign((...args) => fn(name, ...args), this)
 }
+
