@@ -79,14 +79,14 @@ import EasyActions from 'redux-easy-actions';
 
 @EasyActions
 class Actions {
-    ADD_TODO(type, text){
+    ADD_TODO(text){
         return {
-            type: type,
+            type: this.type(),
             text }
     }
-    DELETE_TODO(type, id){
+    DELETE_TODO(id){
             return {
-                type: type,
+                type: this.type(),
                 id }
         }
 }
@@ -100,20 +100,20 @@ Or decorate methods you need:
 ```js
 class Actions {
     @EasyActions
-    ADD_TODO(type, text){
+    ADD_TODO(text){
         return {
-            type: type,
+            type: this.type(),
             text }
     }
     @EasyActions
-    DELETE_TODO(type, id){
+    DELETE_TODO(id){
             return {
-                type: type,
+                type: this.type(),
                 id }
     }
     DELETE_ASYNC(id, dispatch){
         rest.del(`api/todos/${id}`)
-            .then(() => dispatch(this.DELETE_TODO(id)))
+            .then(() => dispatch(this.parent.DELETE_TODO(id)))
     }
 }
 ```
@@ -198,15 +198,15 @@ class Actions {
     constructor(dispatch){
         this.dispatch = dispatch;
     }
-    ADD_TODO(type, text){
+    ADD_TODO(text){
         this.dispatch({
-            type: type,
+            type: this.type(),
             text
         })
     }
     DELETE_TODO(type, id){
         this.dispatch({
-            type: type,
+            type: this.type(),
             id
         })
     }
