@@ -76,12 +76,8 @@ function action(name, fn){
  * */
 
 function assign(target, source){
-    let merged = {}
-    for(var i in target){
-        merged[i] = target[i]
+    for(let i in source){
+        target[i] = source[i];
     };
-    for(let j in source){
-        merged[j] = source[j];
-    };
-    return merged;
+    return target;
 }
