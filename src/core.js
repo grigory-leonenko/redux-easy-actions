@@ -1,4 +1,3 @@
-
 /**
  * Decorator for Redux actions. It eliminates the need for string constants and switches in reducers.
  *
@@ -66,3 +65,23 @@ function action(name, fn){
     return assign((...args) => fn(name, ...args), this)
 }
 
+/**
+ * Assign helper.
+ *
+ * @param {object} Target object;
+ *
+ * @param {object} Source object;
+ *
+ * @return New object with merged properties;
+ * */
+
+function assign(target, source){
+    let merged = {}
+    for(var i in target){
+        merged[i] = target[i]
+    };
+    for(let j in source){
+        merged[j] = source[j];
+    };
+    return merged;
+}
