@@ -6,8 +6,7 @@
   "scripts": {
     "clean": "rimraf lib coverage",
     "build:lib": "babel src --out-dir lib",
-    "version": "npm run clean && npm run build:lib",
-    "postversion": "git add . && git push origin HEAD && git push --tags",
+    "version": "npm run clean && npm run build:lib && git add . && git commit -m \"build update\"",
     "test": "mocha --compilers js:babel/register"
   },
   "repository": {
