@@ -1,6 +1,6 @@
 # [redux-easy-actions](https://github.com/grigory-leonenko/redux-easy-actions)
 
-Decorator for easy creating actions and use with Redux or Flux.
+Redux/Flux action creation made simple decorator
 
 ### Install
 
@@ -8,9 +8,9 @@ Decorator for easy creating actions and use with Redux or Flux.
 npm install redux-easy-actions
 ```
 
-### Problem or what for it...
+### The Problem
 
-[Redux](http://rackt.github.io/redux) is a great library for build JavaScript apps. But there is one problem, string constants as "Action Type".
+[Redux](http://rackt.github.io/redux) is a great library for JavaScript application building. But there is an inconvenience with the original solution: namely, "ACTION_TYPES" implemented as string constants.
 
 
 ```js
@@ -18,7 +18,7 @@ export const ADD_TODO = 'ADD_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 ```
 
-Ideally they are stored in a separate file. And need to be import into action creators.
+Ideally they are stored in a separate file. Thus, an import is required for action creators:
 
 ```js
 import * as types from '../constants/ActionTypes';
@@ -32,7 +32,7 @@ export function deleteTodo(id) {
 }
 ```
 
-They must be imported to reducers.
+...as well as for reducers:
 
 ```js
 import { ADD_TODO, DELETE_TODO } from '../constants/ActionTypes';
@@ -47,7 +47,7 @@ export default function todos(state = {}, action) {
 }
 ```
 
-Oh, and do not forget about the component.
+...and wait, didn't you forget about the components themselves? Import again!
 
 ```js
 class TodoForm {
@@ -57,21 +57,21 @@ class TodoForm {
 }
 ```
 
-Too much links, is not it? Then you change one action name or add action, these steps should be taken:
+Seems like to much links, isn't it? And if you need to change a single action name, about 6 steps are required!
 
 ```
-add or name string constant -> add action creator or rename function name -> rename or specify type in payload -> rename or add action into component -> rename or add type in reducer import -> rename or add switch condition -> test it -> be happy
+add or rename the string constant -> add or rename action creator -> rename or specify type in the payload -> add or rename the action inside components -> update the reducer's import -> update the reducer's switch statement code -> test it -> be happy
 ```
 
-Looks very confusing. With [redux-easy-actions](https://github.com/grigory-leonenko/redux-easy-actions) this boilerplate will be much easier:
+It looks very confusing. With [redux-easy-actions](https://github.com/grigory-leonenko/redux-easy-actions) this boilerplate will be much easier:
 
 ```
-add or rename action -> rename or add action into component -> rename or add switch condition -> test it -> be happy
+add or rename the action -> update the action inside component -> update switch condition -> test it -> be happy
 ```
 
-### How it works.
+### How it works
 
-First need to write action creators, and import decorator:
+First write action creators, and import the EasyActions decorator:
 
 ```js
 
@@ -95,7 +95,7 @@ export default new Actions();
 
 ```
 
-Or decorate methods you need:
+Or decorate specific methods you need:
 
 ```js
 class Actions {
@@ -118,7 +118,7 @@ class Actions {
 }
 ```
 
-That's all actions are created. Next connect it to reducer:
+That's all! Actions are created. Next connect it to reducer:
 
 ```js
 
@@ -135,7 +135,7 @@ export default function todos(state = {}, action) {
 
 ```
 
-And call from component:
+To trigger the action from a component use:
 
 ```js
 class TodoForm {
@@ -145,11 +145,11 @@ class TodoForm {
 }
 ```
 
-Great no strings, easy to change and integrate :)
+Great! No strings, easy to change and integrate :)
 
 ### One additional feature
 
-Redux have great utility to fast bind store dispatch with actions:
+Redux has a great utility action dispatching and store binding inside the component:
 
 ```js
 import { bindActionCreators } from 'redux';
@@ -169,7 +169,7 @@ class TodoApp extends Component {
 }
 ```
 
-When actions creates as class method can be used such solution:
+It becomes even simplier with redux-easy-actions:
 
 ```js
 import Actions from '../actions/actions.js';
@@ -215,11 +215,11 @@ class Actions {
 export default Actions;
 ```
 
-### Use in your app and what next?
+### Is it production-ready?
 
-I think Api will not change globaly, but of course it first version and changes will be.
+I don't think there will be any significant changes in API, but please keep in mind that it's still a very early version.
 
-### Inspirated
+### Inspirated by
 
 * [Redux](http://rackt.github.io/redux)
 * [Flux](https://facebook.github.io/flux/)
