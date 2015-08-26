@@ -79,16 +79,12 @@ import EasyActions from 'redux-easy-actions';
 
 @EasyActions
 class Actions {
-    ADD_TODO(text){
-        return {
-            type: this.type(),
-            text }
+    ADD_TODO(type, text){
+        return {type, text}
     }
-    DELETE_TODO(id){
-            return {
-                type: this.type(),
-                id }
-        }
+    DELETE_TODO(type, id){
+        return {type, id}
+    }
 }
 
 export default new Actions();
@@ -100,20 +96,16 @@ Or decorate specific methods you need:
 ```js
 class Actions {
     @EasyActions
-    ADD_TODO(text){
-        return {
-            type: this.type(),
-            text }
+    ADD_TODO(type, text){
+        return {type, text}
     }
     @EasyActions
-    DELETE_TODO(id){
-            return {
-                type: this.type(),
-                id }
+    DELETE_TODO(type, id){
+        return {type, id}
     }
     DELETE_ASYNC(id, dispatch){
         rest.del(`api/todos/${id}`)
-            .then(() => dispatch(this.parent.DELETE_TODO(id)))
+            .then(() => dispatch(this.DELETE_TODO(id)))
     }
 }
 ```
@@ -126,10 +118,10 @@ import Actions from '../actions/actions.js';
 
 export default function todos(state = {}, action) {
   switch (action.type) {
-  case Actions.ADD_TODO.type():
-    //some actions
-  case Actions.DELETE_TODO.type():
-    //some actions
+      case Actions.ADD_TODO.type):
+        //some actions
+      case Actions.DELETE_TODO.type:
+        //some actions
   }
 }
 
@@ -198,17 +190,11 @@ class Actions {
     constructor(dispatch){
         this.dispatch = dispatch;
     }
-    ADD_TODO(text){
-        this.dispatch({
-            type: this.type(),
-            text
-        })
+    ADD_TODO(type, text){
+        this.dispatch({type, text})
     }
     DELETE_TODO(type, id){
-        this.dispatch({
-            type: this.type(),
-            id
-        })
+        this.dispatch({type, id})
     }
 }
 
