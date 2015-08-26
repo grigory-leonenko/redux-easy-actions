@@ -28,7 +28,7 @@ function wrapClass(target){
     const names = Object.getOwnPropertyNames(target.prototype);
     const methods = names.slice(1, names.length);
     methods.map(name => {
-        target.prototype[name] = new action(name, target.prototype[name], target.prototype);
+        target.prototype[name] = action(name, target.prototype[name]);
 })
 return target;
 }
@@ -44,7 +44,7 @@ return target;
  * */
 
 function wrapMethod(target, key, descriptor){
-    return assign(descriptor, {value: new action(key, descriptor.value, target)});
+    return assign(descriptor, {value: action(key, descriptor.value)});
 }
 
 
@@ -58,12 +58,10 @@ function wrapMethod(target, key, descriptor){
  * @returns {function} Smart action.
  * */
 
-function action(name, fn, ctx){
-    this.type = function() {
-        return name;
-    }
-    this.parent = ctx;
-    return assign(fn.bind(this), this)
+function action(name, fn){
+    let decorator = function(...args){return fn.call(this, name, ...args)};
+    Object.defineProperty(decorator, 'type', {value: name});
+    return decorator;
 }
 
 /**

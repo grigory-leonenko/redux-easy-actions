@@ -4,14 +4,20 @@ import assert from 'assert';
 describe('redux-easy-actions full class decorator tests', () => {
     @EasyActions
     class Actions {
-        ADD_ITEM(item){
-            return {type: this.type(), item}
+        constructor(dispatcher){
+            this.dispatcher = dispatcher;
         }
-        DELETE_ITEM(id){
-            return {type: this.type(), id}
+        ADD_ITEM(type, item){
+            return {type, item}
         }
-        LINKED_ACTION(id){
-            return this.parent.DELETE_ITEM(id)
+        DELETE_ITEM(type, id){
+            return {type, id}
+        }
+        LINKED_ACTION(type, id){
+            return this.DELETE_ITEM(id)
+        }
+        DISPATCH_ACTION(){
+            return this.dispatcher;
         }
     }
 
@@ -22,7 +28,7 @@ describe('redux-easy-actions full class decorator tests', () => {
 
     it('right action type from function method', () => {
         let a = new Actions();
-        assert(a.ADD_ITEM.type() === 'ADD_ITEM')
+        assert(a.ADD_ITEM.type === 'ADD_ITEM' && a.DELETE_ITEM.type === 'DELETE_ITEM')
     })
 
     it('right action type inside payload', () => {
@@ -38,6 +44,11 @@ describe('redux-easy-actions full class decorator tests', () => {
     it('test context inside function', () => {
         let a = new Actions();
         assert(a.LINKED_ACTION(42).id === 42)
+    })
+
+    it('get dispatcher from constructor', () => {
+        let a = new Actions('DISPATCHER');
+        assert(a.DISPATCH_ACTION() === 'DISPATCHER')
     })
 
 })
@@ -45,17 +56,23 @@ describe('redux-easy-actions full class decorator tests', () => {
 
 describe('redux-easy-actions single method decorator tests', () => {
     class Actions {
-        @EasyActions
-        ADD_ITEM(item){
-            return {type: this.type(), item}
+        constructor(dispatcher){
+            this.dispatcher = dispatcher;
         }
         @EasyActions
-        DELETE_ITEM(id){
-            return {type: this.type(), id}
+        ADD_ITEM(type, item){
+            return {type, item}
         }
         @EasyActions
-        LINKED_ACTION(id){
-            return this.parent.DELETE_ITEM(id)
+        DELETE_ITEM(type, id){
+            return {type, id}
+        }
+        @EasyActions
+        LINKED_ACTION(type, id){
+            return this.DELETE_ITEM(id)
+        }
+        DISPATCH_ACTION(){
+            return this.dispatcher;
         }
     }
 
@@ -66,7 +83,7 @@ describe('redux-easy-actions single method decorator tests', () => {
 
     it('right action type from function method', () => {
         let a = new Actions();
-        assert(a.ADD_ITEM.type() === 'ADD_ITEM')
+        assert(a.ADD_ITEM.type === 'ADD_ITEM' && a.DELETE_ITEM.type === 'DELETE_ITEM')
     })
 
     it('right action type inside payload', () => {
@@ -82,6 +99,11 @@ describe('redux-easy-actions single method decorator tests', () => {
     it('test context inside function', () => {
         let a = new Actions();
         assert(a.LINKED_ACTION(42).id === 42)
+    })
+
+    it('get dispatcher from constructor', () => {
+        let a = new Actions('DISPATCHER');
+        assert(a.DISPATCH_ACTION() === 'DISPATCHER')
     })
 
 })
