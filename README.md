@@ -205,7 +205,7 @@ export default Actions;
 
 I don't think there will be any significant changes in API, but please keep in mind that it's still a very early version.
 
-### Inspirated by
+### Inspired by
 
 * [Redux](http://rackt.github.io/redux)
 * [Flux](https://facebook.github.io/flux/)
