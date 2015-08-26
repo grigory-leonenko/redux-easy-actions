@@ -44,7 +44,7 @@ return target;
  * */
 
 function wrapMethod(target, key, descriptor){
-    return assign(descriptor, {value: new action(key, descriptor.value, target.prototype)});
+    return assign(descriptor, {value: new action(key, descriptor.value, target)});
 }
 
 
