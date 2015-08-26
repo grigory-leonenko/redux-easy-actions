@@ -1,6 +1,6 @@
 # [redux-easy-actions](https://github.com/grigory-leonenko/redux-easy-actions)
 
-Redux/Flux action creation made simple decorator
+Redux/Flux action creation made simple
 
 ### Install
 
@@ -57,7 +57,7 @@ class TodoForm {
 }
 ```
 
-Seems like to much links, isn't it? And if you need to change a single action name, about 6 steps are required!
+Seems like too much links, isn't it? And if you need to change a single action name, about 6 steps are required!
 
 ```
 add or rename the string constant -> add or rename action creator -> rename or specify type in the payload -> add or rename the action inside components -> update the reducer's import -> update the reducer's switch statement code -> test it -> be happy
