@@ -118,7 +118,7 @@ import Actions from '../actions/actions.js';
 
 export default function todos(state = {}, action) {
   switch (action.type) {
-      case Actions.ADD_TODO.type):
+      case Actions.ADD_TODO.type:
         //some actions
       case Actions.DELETE_TODO.type:
         //some actions
