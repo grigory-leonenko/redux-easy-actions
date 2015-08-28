@@ -77,7 +77,7 @@ First write action creators, and import the EasyActions decorator:
 
 import EasyActions from 'redux-easy-actions';
 
-@EasyActions
+@EasyActions()
 class Actions {
     ADD_TODO(type, text){
         return {type, text}
@@ -90,16 +90,17 @@ class Actions {
 export default new Actions();
 
 ```
+> Important: Starting version 0.3.0 you need call decorator as function.
 
 Or decorate specific methods you need:
 
 ```js
 class Actions {
-    @EasyActions
+    @EasyActions(Actions)
     ADD_TODO(type, text){
         return {type, text}
     }
-    @EasyActions
+    @EasyActions(Actions)
     DELETE_TODO(type, id){
         return {type, id}
     }
@@ -109,6 +110,7 @@ class Actions {
     }
 }
 ```
+> Important: Starting version 0.3.0 you need to transfer class into decorator for single methods: @EasyActions(Actions)
 
 That's all! Actions are created. Next connect it to reducer:
 
@@ -118,9 +120,9 @@ import Actions from '../actions/actions.js';
 
 export default function todos(state = {}, action) {
   switch (action.type) {
-      case Actions.ADD_TODO.type:
+      case Actions.ADD_TODO:
         //some actions
-      case Actions.DELETE_TODO.type:
+      case Actions.DELETE_TODO:
         //some actions
   }
 }
