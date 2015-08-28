@@ -115,7 +115,8 @@ class Actions {
 That's all! Actions are created. Next connect it to reducer:
 
 ```js
-
+export default Actions;
+------
 import Actions from '../actions/actions.js';
 
 export default function todos(state = {}, action) {
@@ -127,6 +128,28 @@ export default function todos(state = {}, action) {
   }
 }
 
+```
+Or if Actions already instance of class this way:
+
+```js
+export default new Actions(); //
+------
+import Actions from '../actions/actions.js';
+
+export default function todos(state = {}, action) {
+  switch (action.type) {
+      case Actions.ADD_TODO.type:
+        //some actions
+      case Actions.DELETE_TODO.type:
+        //some actions
+  }
+}
+```
+> But strongly recommended to create instance only when you connect it to store.
+
+```js
+let store = createStore(todos);
+let actions = bindActionCreators(TodoActions, store.dispatch);
 ```
 
 To trigger the action from a component use:
