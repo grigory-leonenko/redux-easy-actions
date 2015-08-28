@@ -2,7 +2,7 @@ import EasyActions from '../src/core.js';
 import assert from 'assert';
 
 describe('redux-easy-actions full class decorator tests', () => {
-    @EasyActions
+    @EasyActions()
     class Actions {
         constructor(dispatcher){
             this.dispatcher = dispatcher;
@@ -28,7 +28,7 @@ describe('redux-easy-actions full class decorator tests', () => {
 
     it('right action type from function method', () => {
         let a = new Actions();
-        assert(a.ADD_ITEM.type === 'ADD_ITEM' && a.DELETE_ITEM.type === 'DELETE_ITEM')
+        assert(Actions.ADD_ITEM === 'ADD_ITEM' && a.DELETE_ITEM.type === 'DELETE_ITEM')
     })
 
     it('right action type inside payload', () => {
@@ -59,18 +59,19 @@ describe('redux-easy-actions single method decorator tests', () => {
         constructor(dispatcher){
             this.dispatcher = dispatcher;
         }
-        @EasyActions
+        @EasyActions(Actions)
         ADD_ITEM(type, item){
             return {type, item}
         }
-        @EasyActions
+        @EasyActions(Actions)
         DELETE_ITEM(type, id){
             return {type, id}
         }
-        @EasyActions
+        @EasyActions(Actions)
         LINKED_ACTION(type, id){
             return this.DELETE_ITEM(id)
         }
+        @EasyActions(Actions)
         DISPATCH_ACTION(){
             return this.dispatcher;
         }
@@ -83,7 +84,8 @@ describe('redux-easy-actions single method decorator tests', () => {
 
     it('right action type from function method', () => {
         let a = new Actions();
-        assert(a.ADD_ITEM.type === 'ADD_ITEM' && a.DELETE_ITEM.type === 'DELETE_ITEM')
+        console.log(Actions.ADD_ITEM)
+        assert(Actions.ADD_ITEM === 'ADD_ITEM' && a.DELETE_ITEM.type === 'DELETE_ITEM')
     })
 
     it('right action type inside payload', () => {

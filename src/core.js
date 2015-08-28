@@ -7,11 +7,13 @@
  * */
 
 
-export default function(...args) {
-    if (args.length === 1) {
-        return wrapClass(...args);
-    } else {
-        return wrapMethod(...args);
+export default function(ctx) {
+    return function(...args){
+        if (args.length === 1) {
+            return wrapClass(...args);
+        } else {
+            return wrapMethod(...args, ctx);
+        }
     }
 }
 
@@ -29,6 +31,7 @@ function wrapClass(target){
     const methods = names.slice(1, names.length);
     methods.map(name => {
         target.prototype[name] = action(name, target.prototype[name]);
+        target[name] = name;
 })
 return target;
 }
@@ -43,7 +46,8 @@ return target;
  * @param {object} Method descriptor.
  * */
 
-function wrapMethod(target, key, descriptor){
+function wrapMethod(target, key, descriptor, ctx){
+    ctx[key] = key;
     return assign(descriptor, {value: action(key, descriptor.value)});
 }
 
