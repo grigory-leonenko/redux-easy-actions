@@ -149,7 +149,7 @@ export default function todos(state = {}, action) {
 
 ```js
 let store = createStore(todos);
-let actions = bindActionCreators(TodoActions, store.dispatch);
+let actions = bindActionCreators(new Actions(), store.dispatch);
 ```
 
 To trigger the action from a component use:
