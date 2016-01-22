@@ -1,86 +1,64 @@
 /**
- * Decorator for Redux actions. It eliminates the need for string constants and switches in reducers.
+ * Library for creating string keys for actions creators without manually writing string constants
  *
- * @param {any} Method or Class with methods.
+ * @param {...Object} Single or multiple action creators objects as arguments.
  *
- * @returns {function} Smart action or Class with smart actions.
+ * @returns {Object} Constants for mathing actions and Actions creaters.
  * */
+export default function (...groups){
+    return groups.reduce(combineGroups, []).reduce(formatActions, {Constants: {}, Actions: {}});
+}
 
+/**
+ * Collect action creators from few groups to one list
+ *
+ * @param {Array} Collected action creators.
+ *
+ * @param {Object} Group with action creators.
+ *
+ * @returns {Array} Collected action creators.
+ * */
+function combineGroups(result, group){
+    if(!isObject(group)){
+        throw new Error(`Group of actions must be plain object!`)
+    }
+    return result.concat(parseObject(group))
+}
+/**
+ * Prepare action creators to format.
+ *
+ * @param {Object} Group with action creators.
+ *
+ * @return {Array} List with parsed action creators.
+ * */
+function parseObject(group){
+    return Object.keys(group).map(key => {return {name: key, fn: group[key]}})
+}
 
-export default function(ctx) {
-    return function(...args){
-        if (args.length === 1) {
-            return wrapClass(...args);
-        } else {
-            return wrapMethod(...args, ctx);
-        }
+/**
+ * Split constants and action creators.
+ *
+ * @param {Object} Object with lists of constants and action creators.
+ *
+ * @return {Object} Object with lists of constants and action creators.
+ * */
+function formatActions({Constants, Actions}, action){
+    if(Constants.hasOwnProperty(action.name)){
+        throw new Error(`Action ${action.name} already exist!`)
+    }
+    return {
+        Constants: Object.assign(Constants, {[action.name]: action.name}),
+        Actions: Object.assign(Actions, {[action.name]: (...args) => {return action.fn(action.name, ...args)}})
     }
 }
 
 /**
- * Wrap all class methods into smart actions.
+ * Helper function to check is object is plain.
  *
- * @param {function} Require Class with methods as target.
+ * @param {Object} Target to check.
  *
- * @returns {function} Class with smart actions.
+ * @returns {Boolean} Result of check.
  * */
-
-
-function wrapClass(target){
-    const names = Object.getOwnPropertyNames(target.prototype);
-    const methods = names.slice(1, names.length);
-    methods.map(name => {
-        target.prototype[name] = action(name, target.prototype[name]);
-        target[name] = name;
-})
-return target;
-}
-
-/**
- * Wrap single methods into smart actions
- *
- * @param {function} Target class.
- *
- * @param {string} Method name.
- *
- * @param {object} Method descriptor.
- * */
-
-function wrapMethod(target, key, descriptor, ctx){
-    ctx[key] = key;
-    return assign(descriptor, {value: action(key, descriptor.value)});
-}
-
-
-/**
- * Smart Action constructor, merge into function helper methods.
- *
- * @param {string} Method name.
- *
- * @param {function} Method.
- *
- * @returns {function} Smart action.
- * */
-
-function action(name, fn){
-    let decorator = function(...args){return fn.call(this, name, ...args)};
-    Object.defineProperty(decorator, 'type', {value: name});
-    return decorator;
-}
-
-/**
- * Assign helper.
- *
- * @param {object} Target object;
- *
- * @param {object} Source object;
- *
- * @return New object with merged properties;
- * */
-
-function assign(target, source){
-    for(let i in source){
-        target[i] = source[i];
-    };
-    return target;
+function isObject(target){
+    return Object.prototype.toString.call(target) === '[object Object]';
 }
