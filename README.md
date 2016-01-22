@@ -8,6 +8,11 @@ Redux/Flux action creation made simple
 npm install redux-easy-actions
 ```
 
+### Important
+
+Starting version 0.4 library has been completely rewritten. Decorators using deprecated because of [this](https://phabricator.babeljs.io/T2645) and library no more support class as container for action creators methods, only plain objects.
+All became even simpler :)
+
 ### The Problem
 
 [Redux](http://rackt.github.io/redux) is a great library for JavaScript application building. But there is an inconvenience with the original solution: namely, "ACTION_TYPES" implemented as string constants.
@@ -77,158 +82,51 @@ First write action creators, and import the EasyActions decorator:
 
 import EasyActions from 'redux-easy-actions';
 
-@EasyActions()
-class Actions {
-    ADD_TODO(type, text){
-        return {type, text}
-    }
-    DELETE_TODO(type, id){
-        return {type, id}
-    }
-}
-
-export default new Actions();
+export default EasyActions({
+   ADD_TODO(type, text){
+       return {type, text}
+   }
+   DELETE_TODO(type, id){
+       return {type, id}
+   }
+})
 
 ```
-> Important: Starting version 0.3.0 you need call decorator as function.
-
-Or decorate specific methods you need:
-
-```js
-class Actions {
-    @EasyActions(Actions)
-    ADD_TODO(type, text){
-        return {type, text}
-    }
-    @EasyActions(Actions)
-    DELETE_TODO(type, id){
-        return {type, id}
-    }
-    DELETE_ASYNC(id, dispatch){
-        rest.del(`api/todos/${id}`)
-            .then(() => dispatch(this.DELETE_TODO(id)))
-    }
-}
-```
-> Important: Starting version 0.3.0 you need to transfer class into decorator for single methods: @EasyActions(Actions)
+> Important: As first argument always passed action type, this happens automatically no need to pass it manually. 
 
 That's all! Actions are created. Next connect it to reducer:
 
 ```js
-export default Actions;
-------
-import Actions from '../actions/actions.js';
+import {Constants} from '../actions/actions.js';
 
 export default function todos(state = {}, action) {
   switch (action.type) {
-      case Actions.ADD_TODO:
+      case Constants.ADD_TODO:
         //some actions
-      case Actions.DELETE_TODO:
+      case Constants.DELETE_TODO:
         //some actions
   }
 }
 
-```
-Or if Actions already instance of class this way:
-
-```js
-export default new Actions(); //
-------
-import Actions from '../actions/actions.js';
-
-export default function todos(state = {}, action) {
-  switch (action.type) {
-      case Actions.ADD_TODO.type:
-        //some actions
-      case Actions.DELETE_TODO.type:
-        //some actions
-  }
-}
-```
-> But strongly recommended to create instance only when you connect it to store.
-
-```js
-let store = createStore(todos);
-let actions = bindActionCreators(new Actions(), store.dispatch);
 ```
 
 To trigger the action from a component use:
 
 ```js
-class TodoForm {
+import {Actions} from '../actions/actions.js';
+
+class TodoForm extends React.Component {
    submit(e){
-       this.props.dispatch(this.props.ADD_TODO(e.target.value));
+       this.props.dispatch(Actions.ADD_TODO(e.target.value));
    }
 }
 ```
 
 Great! No strings, easy to change and integrate :)
 
-### One additional feature
-
-Redux has a great utility action dispatching and store binding inside the component:
-
-```js
-import { bindActionCreators } from 'redux';
-import * as TodoActions from '../actions/todos';
-
-class TodoApp extends Component {
-  render() {
-    const { todos, dispatch } = this.props;
-    const actions = bindActionCreators(TodoActions, dispatch);
-
-    return (
-      <div>
-        <MainSection todos={todos} actions={actions} />
-      </div>
-    );
-  }
-}
-```
-
-It becomes even simplier with redux-easy-actions:
-
-```js
-import Actions from '../actions/actions.js';
-
-class TodoApp extends Component {
-  render() {
-    const { todos, dispatch } = this.props;
-    const actions = new Actions(dispatch);
-
-    return (
-      <div>
-        <MainSection todos={todos} actions={actions} />
-      </div>
-    );
-  }
-}
-```
-
-Actions:
-
-```js
-import EasyActions from 'redux-easy-actions';
-
-@EasyActions
-class Actions {
-    constructor(dispatch){
-        this.dispatch = dispatch;
-    }
-    ADD_TODO(type, text){
-        this.dispatch({type, text})
-    }
-    DELETE_TODO(type, id){
-        this.dispatch({type, id})
-    }
-}
-
-export default Actions;
-```
-
 ### Is it production-ready?
 
-I don't think there will be any significant changes in API, but please keep in mind that it's still a very early version.
+Please keep in mind that it's still a very early version.
 
 ### Inspired by
 
