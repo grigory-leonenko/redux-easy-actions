@@ -85,7 +85,7 @@ import EasyActions from 'redux-easy-actions';
 export default EasyActions({
    ADD_TODO(type, text){
        return {type, text}
-   }
+   },
    DELETE_TODO(type, id){
        return {type, id}
    }
