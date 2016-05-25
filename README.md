@@ -82,7 +82,7 @@ First write action creators, and import the EasyActions decorator:
 
 import EasyActions from 'redux-easy-actions';
 
-export default EasyActions({
+const { Actions, Constansts } = EasyActions({
    ADD_TODO(type, text){
        return {type, text}
    },
@@ -91,13 +91,16 @@ export default EasyActions({
    }
 })
 
+export { Actions as Actions }
+export { Constants as Constants }
+
 ```
 > Important: As first argument always passed action type, this happens automatically no need to pass it manually. 
 
 That's all! Actions are created. Next connect it to reducer:
 
 ```js
-import {Constants} from '../actions/actions.js';
+import { Constants } from '../actions/actions.js';
 
 export default function todos(state = {}, action) {
   switch (action.type) {
