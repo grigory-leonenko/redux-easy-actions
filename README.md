@@ -82,7 +82,7 @@ First write action creators, and import the EasyActions decorator:
 
 import EasyActions from 'redux-easy-actions';
 
-const { Actions, Constansts } = EasyActions({
+const { Actions, Constants } = EasyActions({
    ADD_TODO(type, text){
        return {type, text}
    },
