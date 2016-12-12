@@ -48,7 +48,12 @@ function formatActions({Constants, Actions}, action){
     }
     return {
         Constants: Object.assign(Constants, {[action.name]: action.name}),
-        Actions: Object.assign(Actions, {[action.name]: (...args) => {return action.fn(action.name, ...args)}})
+        Actions: Object.assign(Actions, {
+            [action.name]: (...args) => Object.assign(
+                { type: action.name },
+                action.fn(...args)
+            )
+        })
     }
 }
 

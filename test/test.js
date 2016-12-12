@@ -3,8 +3,8 @@ import assert from 'assert';
 
 describe('redux-easy-actions full class decorator tests', () => {
     const ItemActions = EasyActions({
-        ADD_ITEM(type, text){
-            return {type, text}
+        ADD_ITEM(text){
+            return {text}
         }
     })
     const {Actions, Constants} = ItemActions;

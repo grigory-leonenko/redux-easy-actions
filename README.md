@@ -83,11 +83,11 @@ First write action creators, and import the EasyActions decorator:
 import EasyActions from 'redux-easy-actions';
 
 const { Actions, Constansts } = EasyActions({
-   ADD_TODO(type, text){
-       return {type, text}
+   ADD_TODO(text){
+       return {text}
    },
-   DELETE_TODO(type, id){
-       return {type, id}
+   DELETE_TODO(id){
+       return {id}
    }
 })
 
@@ -95,7 +95,7 @@ export { Actions as Actions }
 export { Constants as Constants }
 
 ```
-> Important: As first argument always passed action type, this happens automatically no need to pass it manually. 
+> Important: First argument is automatically injected into the return object, therefore, no need to pass parameter.
 
 That's all! Actions are created. Next connect it to reducer:
 
